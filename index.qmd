@@ -8,7 +8,7 @@ format:
         body-width: 1000px
 ---
 
-<div style="text-align:center; font-size:35px; font-weight:600; font-family:Jost;margin-bottom:1rem;">EmbedTalk:Talking Head Synthesis using Gaussian Embeddings</div>
+<div style="text-align:center; font-size:35px; font-weight:600; font-family:Jost;margin-bottom:1rem;">EmbedTalk: Talking Head Synthesis using Gaussian Embeddings</div>
 
 <div style="text-align:center; font-size:20px; font-weight:500; font-family:Jost;"><a href="https://eps.leeds.ac.uk/computing/pgr/11951/arpita-saggar" target="_blank">Arpita Saggar</a><sup>1</sup>, <a href="https://medicinehealth.leeds.ac.uk/medicine/staff/257/dr-jonathan-darling" target="_blank">Jonathan C. Darling</a><sup>2</sup>, <a href="https://eps.leeds.ac.uk/computing/staff/13320/dr-duygu-sarikaya" target="_blank">Duygu Sarikaya</a><sup>1</sup>, <a href="https://eps.leeds.ac.uk/computing/staff/84/professor-david-hogg" target="_blank">David C. Hogg</a><sup>1</sup></div>
 
@@ -19,38 +19,53 @@ format:
 <div class="center-button">
   <a href="https://arxiv.org/abs/2603.07604" target="_blank" class="btn btn-primary rounded-pill m-1" role="button" style="font-weight:500; font-family:Jost;"><i class="fa-solid fa-file"></i> Paper</a>
   <a href="https://github.com/arpita2512/EmbedTalk" target="_blank" class="btn btn-primary rounded-pill m-1" role="button" style="font-weight:500; font-family:Jost;">{{< fa brands github >}} Code</a>
+  <a href="https://drive.google.com/file/d/1Ia0NLliUB3ktwqlUtceUeEj5DWv6E3sE/view?usp=sharing" target="_blank" class="btn btn-primary rounded-pill m-1" role="button" style="font-weight:500; font-family:Jost;"><i class="fa-solid fa-video"></i> Supplementary Video</a>
 </div>
 
-<div style="text-align:center; font-size:18px; font-weight:450; font-family:Jost; line-height: 1; margin-bottom:1rem;"><b>TL;DR:</b> We present EmbedTalk, a new framework for 3DGS-based talking head synthesis. EmbedTalk models speech deformations using learnable per-Gaussian embeddings, resulting in better lip-sync and reduced computational costs compared to tri-plane-based methods.</div>
-
-![teaser](assets/teaser.jpg)
+![EmbedTalk models speech deformations in talking head synthesis with learnable per-Gaussian embeddings](assets/embedtalk_teaser-1.png){width=80%}
 
 ## Introduction
 
-<div class="text">Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</div>
+<div class="text">Synthesising audio-driven talking heads in real-time is an important task for film production, teleconferencing, and virtual assistants. Generating talking heads with 3D Gaussian Splatting involves deforming a canonical Gaussian representation using the speech signal. Prior work uses 2D planes to encode the 3D Gaussians and compress the associated deformation field. However, tri-plane representations suffer from mirroring artefacts caused by feature entanglement between subspaces. Tri-planes also introduce approximation errors that hamper audio-visual alignment, as shown above. Prior work has demonstrated the superiority of learnable embeddings for modelling Gaussian deformations in 4D (3D + time) scene reconstruction (E-D3DGS; ECCV'24). In this work, we extend the embedding-based deformation paradigm to talking head synthesis. We introduce **EmbedTalk**, which leverages per-Gaussian embeddings to generate stable talking heads with high audio-visual alignment. Quantitive and qualitative assessments establish EmbedTalk's superiority in facial fidelity, lip-synchronisation, and motion consistency compared to previous 3DGS-based works. Furthermore, by generating mouth movements consistent with an identity's style, our method achieves higher realism than state-of-the-art generative models that often exaggerate motion.</div>
 
 ## Method
 
-<div class="text">Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</div>
+<div class="text">EmbedTalk begins with a talking portrait video. The video frames enable a dense reconstruction of the head that initialises the 3D Gaussians. Each Gaussian is also associated with a learnable embedding $z_g$. For each frame, the corresponding speech signal $a$ and upper-face movements $e$ are fed into the deformation MLP, along with a positional encoding of $z_g$ to predict the Gaussian deformations ($\Delta\mu, \Delta\alpha$). The deformed Gaussians are passed to the rasteriser, along with the viewing direction (camera), to render the head onto the combined torso and scene background.</div>
 
-![An overview of EmbedTalk](assets/overview.jpg)
+![An overview of EmbedTalk](assets/embedtalk_overview.png)
 
 ## Results
 
-<div class="text">Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</div>
+<div class="text">We compare our approach with recent 3DGS-based methods: TalkingGaussian (ECCV'24), GaussianTalker (ACM MM'24) and DEGSTalk (ICASSP'25). To contextualise our work beyond 3DGS-based synthesis, we also compare EmbedTalk with state-of-the-art image-based generative methods: AniTalker(ACM MM'24), FLOAT (ICCV'25), KDTalker (IJCV'25) and Sonic (CVPR'25).</div>
 
-![Comparison with other 3DGS-based methods](assets/comp_3dgs.jpg)
+<div class="text">Videos are rendered under two different settings. The first is the **self-driven** setting, where videos generated for an identity are driven by unseen speech sourced from the same identity. The second is the **cross-driven** setting, where videos are generated using: (1) speech from other identities, and (2) synthetic speech created using a text-to-speech (TTS) model. For this, we source human speech from the HDTF (High-Definition Talking Face) dataset, and generate AI samples using the voices from ElevenLabs TTS. The text for the TTS model is taken from the works of William Shakespeare.</div>
 
-![Comparison with generative methods](assets/comp_generative.jpg)
+### Quantitative Comparison
+
+![Results for the self-driven setting, with the top three results in red (first), orange (second) and yellow (third). EmbedTalk achieves the best rendering quality, (personalised) lip-sync, and motion consistency, along with a high inference speed.](assets/table.png)
+
+### Qualitative Comparison
+
+#### 
+
+![Comparison with other 3DGS-based methods](assets/embedtalk_comp_3dgs-1.png){width=90%}
+
+#### 
+
+![Comparison with image-based generative models. Some methods redirect the speaker’s gaze (blue arrow) away from the camera](assets/embedtalk_comp_generative1-1.png){width=90%}
+
+#### 
+
+![Consecutive differences accumulated over 20 frames. White pixels in the upper head region indicate temporal flickering, with higher intensities corresponding to larger instabilities](assets/embedtalk_head_wobble-1.png){width=90%}
 
 ## Acknowledgements
 
-<div class="text">AS is supported by a PhD studentship that is funded by UK Research and Innovation (CDT Grant Reference: EP/S024336/1). This work was undertaken on the Aire HPC system at the University of Leeds, UK.</div>
+<div class="text">AS is supported by a PhD studentship that is funded by UK Research and Innovation (CDT Grant Reference: EP/S024336/1). This work was undertaken on the Aire HPC system at the University of Leeds, UK. We are grateful to Professor Vania Dimitrova for helpful comments on the presentation of results.</div>
 
 ## BibTeX
 
 ```bibtex
-@misc{saggar2026embedtalktriplanefreetalkinghead,
+@misc{saggar2026embedtalktalkingheadsynthesis,
       title={EmbedTalk: Talking Head Synthesis using Gaussian Embeddings}, 
       author={Arpita Saggar and Jonathan C. Darling and Duygu Sarikaya and David C. Hogg},
       year={2026},
