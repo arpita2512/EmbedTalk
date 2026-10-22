@@ -42,7 +42,7 @@ format:
 
 ### Quantitative Comparison
 
-![Results for the self-driven setting, with the top three results in red (first), orange (second) and yellow (third). EmbedTalk achieves the best rendering quality, (personalised) lip-sync, and motion consistency, along with a high inference speed.](assets/table.png)
+![Results (mean $\pm$ sd) for the self-driven setting, with the top three averages in red (first), orange (second) and yellow (third). EmbedTalk achieves the best rendering quality, (personalised) lip-sync, and motion consistency, along with a high inference speed.](assets/table_sd.png)
 
 ### Qualitative Comparison
 
